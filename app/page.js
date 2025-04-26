@@ -2,16 +2,18 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import '../styles/globals.scss';
 import VerticalDots from '@/components/VerticalDots';
 import MenuDots from '@/components/MenuDots/MenuDots';
 import NavLinks from '@/components/NavLinks';
-
+import style from '../styles/Home.module.scss';
 export default function Home() {
     const [activePage, setActivePage] = useState(1);
     const section1Ref = useRef(null);
     const section2Ref = useRef(null);
     const section3Ref = useRef(null);
+    const section4Ref = useRef(null);
+    const section5Ref = useRef(null);
+    const section6Ref = useRef(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -21,14 +23,23 @@ export default function Home() {
             const section1Position = section1Ref.current.offsetTop;
             const section2Position = section2Ref.current.offsetTop;
             const section3Position = section3Ref.current.offsetTop;
+            const section4Position = section4Ref.current.offsetTop;
+            const section5Position = section5Ref.current.offsetTop;
+            const section6Position = section6Ref.current.offsetTop;
 
-            // Determine which section is currently in view
+
             if (scrollPosition < section2Position) {
                 setActivePage(1);
             } else if (scrollPosition < section3Position) {
                 setActivePage(2);
-            } else {
+            } else if (scrollPosition < section4Position) {
                 setActivePage(3);
+            } else if (scrollPosition < section5Position) {
+                setActivePage(4);
+            } else if (scrollPosition < section6Position) {
+                setActivePage(5);
+            } else {
+                setActivePage(6);
             }
         };
 
@@ -46,8 +57,19 @@ export default function Home() {
             section2Ref.current.scrollIntoView({ behavior: 'smooth' });
         } else if (pageNumber === 3) {
             section3Ref.current.scrollIntoView({ behavior: 'smooth' });
+        } else if (pageNumber === 4) {
+            section4Ref.current.scrollIntoView({ behavior: 'smooth' });
+        } else if (pageNumber === 5) {
+            section5Ref.current.scrollIntoView({ behavior: 'smooth' });
+        } else if (pageNumber === 6) {
+            section6Ref.current.scrollIntoView({ behavior: 'smooth' });
         }
     };
+    const startPage = activePage <= 3 ? 1 : 4;
+
+
+
+
 
     return (
         <div className="min-h-screen bg-white">
@@ -56,21 +78,23 @@ export default function Home() {
                 <NavLinks />
             </header>
             <VerticalDots
-                totalSections={3}
+                totalSections={6}
                 activeSection={activePage}
                 onDotClick={navigateTo}
             />
             <main className="px-6 md:px-12 py-8">
                 {/* Section 1 */}
                 <section ref={section1Ref} className="min-h-screen flex flex-col items-center justify-center">
-                    <div className="relative w-80 h-80 md:w-96 md:h-96 mb-6">
-                        <Image
-                            src='/images/CVN-UK-5-01.png'
-                            alt="CVN Kalari UK Logo"
-                            width={400}
-                            height={400}
-                            className="rounded-full bg-blue-50"
-                        />
+                    <div className="relative mb-6">
+                        <div className={style.kalariLogo}>
+                            <Image
+                                src='/images/CVN-UK-5-01.png'
+                                alt="CVN Kalari UK Logo"
+                                fill
+
+                                className="rounded-full bg-blue-50"
+                            />
+                        </div>
                     </div>
                     <h1 className="text-6xl md:text-8xl font-serif mb-8">Kalaripayattu</h1>
                 </section>
@@ -141,32 +165,119 @@ export default function Home() {
                     </div>
                 </section>
 
+                <section ref={section4Ref} className="min-h-screen flex flex-col md:flex-row gap-8">
+                    <div className="md:w-1/3">
+                        <h2 className="text-4xl font-serif mb-4">About Us</h2>
+                        <div className="w-32 h-1 bg-blue-100 mb-16"></div>
+                    </div>
+                    <div className="md:w-2/3">
+                        <div className="mb-8">
+                            <p className="mb-4">
+                                Welcome to CVN Klari UK, the home of Kalaripayattu, the ancient martial art of
+                                Kerala, India, and the mother of all martial arts. We are dedicated to preserving
+                                and sharing this extraordinary tradition, blending physical discipline, mental focus,
+                                and cultural heritage to inspire modern minds.
+                            </p>
+                            <p className="mb-4">
+                                At CVN Klari UK, our approach is holistic, combining rigorous physical
+                                conditioning, mindful techniques, and philosophical teachings. Through practices
+                                such as dynamic movements, animal postures, and breath control, we aim to
+                                empower individuals to achieve strength, flexibility, and emotional resilience.
+                            </p>
+                        </div>
+                        <div>
+                            <div className="mb-2">Horse Posture</div>
+                            <Image
+                                src="/images/DSC_2022.JPG"
+                                alt="Horse Posture demonstration"
+                                width={600}
+                                height={300}
+                                className="rounded"
+                            />
+                        </div>
+                    </div>
+                </section>
 
+                <section ref={section5Ref} className="min-h-screen flex flex-col md:flex-row gap-8">
+                    <div className="md:w-1/3">
+                        <h2 className="text-4xl font-serif mb-4">About Us</h2>
+                        <div className="w-32 h-1 bg-blue-100 mb-16"></div>
+                    </div>
+                    <div className="md:w-2/3">
+                        <div className="mb-8">
+                            <p className="mb-4">
+                                Welcome to CVN Klari UK, the home of Kalaripayattu, the ancient martial art of
+                                Kerala, India, and the mother of all martial arts. We are dedicated to preserving
+                                and sharing this extraordinary tradition, blending physical discipline, mental focus,
+                                and cultural heritage to inspire modern minds.
+                            </p>
+                            <p className="mb-4">
+                                At CVN Klari UK, our approach is holistic, combining rigorous physical
+                                conditioning, mindful techniques, and philosophical teachings. Through practices
+                                such as dynamic movements, animal postures, and breath control, we aim to
+                                empower individuals to achieve strength, flexibility, and emotional resilience.
+                            </p>
+                        </div>
+                        <div>
+                            <div className="mb-2">Horse Posture</div>
+                            <Image
+                                src="/images/DSC_2022.JPG"
+                                alt="Horse Posture demonstration"
+                                width={600}
+                                height={300}
+                                className="rounded"
+                            />
+                        </div>
+                    </div>
+                </section>
 
+                <section ref={section6Ref} className="min-h-screen flex flex-col md:flex-row gap-8">
+                    <div className="md:w-1/3">
+                        <h2 className="text-4xl font-serif mb-4">About Us</h2>
+                        <div className="w-32 h-1 bg-blue-100 mb-16"></div>
+                    </div>
+                    <div className="md:w-2/3">
+                        <div className="mb-8">
+                            <p className="mb-4">
+                                Welcome to CVN Klari UK, the home of Kalaripayattu, the ancient martial art of
+                                Kerala, India, and the mother of all martial arts. We are dedicated to preserving
+                                and sharing this extraordinary tradition, blending physical discipline, mental focus,
+                                and cultural heritage to inspire modern minds.
+                            </p>
+                            <p className="mb-4">
+                                At CVN Klari UK, our approach is holistic, combining rigorous physical
+                                conditioning, mindful techniques, and philosophical teachings. Through practices
+                                such as dynamic movements, animal postures, and breath control, we aim to
+                                empower individuals to achieve strength, flexibility, and emotional resilience.
+                            </p>
+                        </div>
+                        <div>
+                            <div className="mb-2">Horse Posture</div>
+                            <Image
+                                src="/images/DSC_2022.JPG"
+                                alt="Horse Posture demonstration"
+                                width={600}
+                                height={300}
+                                className="rounded"
+                            />
+                        </div>
+                    </div>
+                </section>
 
             </main>
 
             <footer className="px-6 md:px-12 py-6 sticky bottom-0 bg-white z-10">
                 <div className="flex justify-between items-center">
                     <div className="pagination flex space-x-6">
-                        <button
-                            onClick={() => navigateTo(1)}
-                            className={`${activePage === 1 ? 'border-b-2 border-black' : ''}`}
-                        >
-                            01
-                        </button>
-                        <button
-                            onClick={() => navigateTo(2)}
-                            className={`${activePage === 2 ? 'border-b-2 border-black' : ''}`}
-                        >
-                            02
-                        </button>
-                        <button
-                            onClick={() => navigateTo(3)}
-                            className={`${activePage === 3 ? 'border-b-2 border-black' : ''}`}
-                        >
-                            03
-                        </button>
+                        {[startPage, startPage + 1, startPage + 2].map((page) => (
+                            <button
+                                key={page}
+                                onClick={() => navigateTo(page)}
+                                className={`${activePage === page ? 'border-b-2 border-black' : ''}`}
+                            >
+                                {page.toString().padStart(2, '0')}
+                            </button>
+                        ))}
                     </div>
                     <button className="flex flex-col items-center justify-center w-10 h-10">
                         <div className="w-6 h-0.5 bg-black mb-1"></div>
