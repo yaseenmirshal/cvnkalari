@@ -1,103 +1,181 @@
-import Image from "next/image";
+// app/page.js
+"use client";
+import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
+import '../styles/globals.scss';
+import VerticalDots from '@/components/VerticalDots';
+import MenuDots from '@/components/MenuDots/MenuDots';
+import NavLinks from '@/components/NavLinks';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    const [activePage, setActivePage] = useState(1);
+    const section1Ref = useRef(null);
+    const section2Ref = useRef(null);
+    const section3Ref = useRef(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollPosition = window.scrollY + window.innerHeight / 2;
+
+            // Get the positions of each section
+            const section1Position = section1Ref.current.offsetTop;
+            const section2Position = section2Ref.current.offsetTop;
+            const section3Position = section3Ref.current.offsetTop;
+
+            // Determine which section is currently in view
+            if (scrollPosition < section2Position) {
+                setActivePage(1);
+            } else if (scrollPosition < section3Position) {
+                setActivePage(2);
+            } else {
+                setActivePage(3);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const navigateTo = (pageNumber) => {
+        setActivePage(pageNumber);
+
+        // Scroll to the appropriate section
+        if (pageNumber === 1) {
+            section1Ref.current.scrollIntoView({ behavior: 'smooth' });
+        } else if (pageNumber === 2) {
+            section2Ref.current.scrollIntoView({ behavior: 'smooth' });
+        } else if (pageNumber === 3) {
+            section3Ref.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    return (
+        <div className="min-h-screen bg-white">
+            <header className="py-4 px-6 md:px-12 flex justify-between items-center sticky top-0 bg-white z-10 ">
+                <MenuDots />
+                <NavLinks />
+            </header>
+            <VerticalDots
+                totalSections={3}
+                activeSection={activePage}
+                onDotClick={navigateTo}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <main className="px-6 md:px-12 py-8">
+                {/* Section 1 */}
+                <section ref={section1Ref} className="min-h-screen flex flex-col items-center justify-center">
+                    <div className="relative w-80 h-80 md:w-96 md:h-96 mb-6">
+                        <Image
+                            src='/images/CVN-UK-5-01.png'
+                            alt="CVN Kalari UK Logo"
+                            width={400}
+                            height={400}
+                            className="rounded-full bg-blue-50"
+                        />
+                    </div>
+                    <h1 className="text-6xl md:text-8xl font-serif mb-8">Kalaripayattu</h1>
+                </section>
+
+                {/* Section 2 */}
+                <section ref={section2Ref} className="min-h-screen flex flex-col md:flex-row gap-8 items-center justify-center">
+                    <div className="md:w-1/2">
+                        <Image
+                            src='/images/DSC_2020.JPG'
+                            alt="Kalaripayattu practitioners"
+                            width={600}
+                            height={400}
+                            className="rounded"
+                        />
+                    </div>
+                    <div className="md:w-1/2">
+                        <h2 className="text-4xl font-serif mb-4">Welcome to CVN Kalari UK</h2>
+                        <p className="mb-4">
+                            Step into a world where the echoes of an ancient legacy inspire the minds
+                            of today. At CVN Kalari UK, we proudly teach Kalaripayattu, the revered
+                            martial art of Kerala, known as the mother of all martial arts.
+                        </p>
+                        <p className="mb-4">
+                            Our motto, &quot;Ancient, Inspired Minds,&quot; reflects our mission to bridge the
+                            timeless wisdom of the past with the boundless potential of the present.
+                            Through the rhythmic flow of movement, the discipline of the body, and
+                            the awakening of the spirit, we invite you to embark on a transformative
+                            journey.
+                        </p>
+                        <p>
+                            Here, tradition thrives, inspiration flourishes, and every student becomes a
+                            part of a legacy that transcends time.
+                        </p>
+                    </div>
+                </section>
+
+                {/* Section 3 */}
+                <section ref={section3Ref} className="min-h-screen flex flex-col md:flex-row gap-8">
+                    <div className="md:w-1/3">
+                        <h2 className="text-4xl font-serif mb-4">About Us</h2>
+                        <div className="w-32 h-1 bg-blue-100 mb-16"></div>
+                    </div>
+                    <div className="md:w-2/3">
+                        <div className="mb-8">
+                            <p className="mb-4">
+                                Welcome to CVN Klari UK, the home of Kalaripayattu, the ancient martial art of
+                                Kerala, India, and the mother of all martial arts. We are dedicated to preserving
+                                and sharing this extraordinary tradition, blending physical discipline, mental focus,
+                                and cultural heritage to inspire modern minds.
+                            </p>
+                            <p className="mb-4">
+                                At CVN Klari UK, our approach is holistic, combining rigorous physical
+                                conditioning, mindful techniques, and philosophical teachings. Through practices
+                                such as dynamic movements, animal postures, and breath control, we aim to
+                                empower individuals to achieve strength, flexibility, and emotional resilience.
+                            </p>
+                        </div>
+                        <div>
+                            <div className="mb-2">Horse Posture</div>
+                            <Image
+                                src="/images/DSC_2022.JPG"
+                                alt="Horse Posture demonstration"
+                                width={600}
+                                height={300}
+                                className="rounded"
+                            />
+                        </div>
+                    </div>
+                </section>
+
+
+
+
+            </main>
+
+            <footer className="px-6 md:px-12 py-6 sticky bottom-0 bg-white z-10">
+                <div className="flex justify-between items-center">
+                    <div className="pagination flex space-x-6">
+                        <button
+                            onClick={() => navigateTo(1)}
+                            className={`${activePage === 1 ? 'border-b-2 border-black' : ''}`}
+                        >
+                            01
+                        </button>
+                        <button
+                            onClick={() => navigateTo(2)}
+                            className={`${activePage === 2 ? 'border-b-2 border-black' : ''}`}
+                        >
+                            02
+                        </button>
+                        <button
+                            onClick={() => navigateTo(3)}
+                            className={`${activePage === 3 ? 'border-b-2 border-black' : ''}`}
+                        >
+                            03
+                        </button>
+                    </div>
+                    <button className="flex flex-col items-center justify-center w-10 h-10">
+                        <div className="w-6 h-0.5 bg-black mb-1"></div>
+                        <div className="w-6 h-0.5 bg-black mb-1"></div>
+                        <div className="w-6 h-0.5 bg-black"></div>
+                    </button>
+                </div>
+
+            </footer>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    );
 }
