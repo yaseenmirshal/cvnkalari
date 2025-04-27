@@ -1,0 +1,18 @@
+.navLinks {
+    display: flex;
+    gap: 5rem;
+ 
+}
+
+.navLink {
+      margin-top: 20px;
+    color: #1f2937;
+    text-decoration: none;
+    font-family: 'Poppins', serif;
+    font-size: 16px;
+     
+    &:hover {
+      color: #4b5563;
+    }
+  }
+  
